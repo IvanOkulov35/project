@@ -42,9 +42,9 @@ postsRouter.post('/',
 
 postsRouter.put('/:id',
     authorizationValidationMiddleware,
-    body('title').isString().trim().isLength({min:1, max: 30}).withMessage("post is too long"),
-    body("shortDescription").isString().trim().isLength({min: 1, max: 100}).withMessage("shortDescription is too long"),
-    body("content").isString().trim().isLength({min: 1, max: 1000}).withMessage("content is too long"),
+    body('title').isString().trim().isLength({min:10, max: 30}).withMessage("post is too long"),
+    body("shortDescription").isString().trim().isLength({min: 10, max: 100}).withMessage("shortDescription is too long"),
+    body("content").isString().trim().isLength({min: 100, max: 1000}).withMessage("content is too long"),
     body("blogId").isString().trim().notEmpty().withMessage("incorrect blogId").custom((id, req) => {
         const postUpdate = blogs.find(b => b.id === id)
         if(!postUpdate) {
