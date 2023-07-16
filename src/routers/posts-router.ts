@@ -21,9 +21,9 @@ postsRouter.get('/:id', (req:Request, res: Response) => {
 
 postsRouter.post('/',
     authorizationValidationMiddleware,
-    body('title').isString().trim().isLength({max: 30}).withMessage("post is too long"),
-    body("shortDescription").isString().trim().isLength({max: 100}).withMessage("shortDescription is too long"),
-    body("content").isString().trim().isLength({max: 1000}).withMessage("content is too long"),
+    body('title').isString().trim().isLength({min: 1, max: 30}).withMessage("post is too long"),
+    body("shortDescription").isString().trim().isLength({min: 1, max: 100}).withMessage("shortDescription is too long"),
+    body("content").isString().trim().isLength({min: 1, max: 1000}).withMessage("content is too long"),
     body("blogId").isString().trim().notEmpty().withMessage("incorrect blogId").custom((id, req) => {
         const postUpdate = blogs.find(b => b.id === id)
         if(!postUpdate) {
@@ -42,9 +42,9 @@ postsRouter.post('/',
 
 postsRouter.put('/:id',
     authorizationValidationMiddleware,
-    body('title').isString().trim().isLength({max: 30}).withMessage("post is too long"),
-    body("shortDescription").isString().trim().isLength({max: 100}).withMessage("shortDescription is too long"),
-    body("content").isString().trim().isLength({max: 1000}).withMessage("content is too long"),
+    body('title').isString().trim().isLength({min:1, max: 30}).withMessage("post is too long"),
+    body("shortDescription").isString().trim().isLength({min: 1, max: 100}).withMessage("shortDescription is too long"),
+    body("content").isString().trim().isLength({min: 1, max: 1000}).withMessage("content is too long"),
     body("blogId").isString().trim().notEmpty().withMessage("incorrect blogId").custom((id, req) => {
         const postUpdate = blogs.find(b => b.id === id)
         if(!postUpdate) {
@@ -55,7 +55,7 @@ postsRouter.put('/:id',
         }
     }),
     (req:Request, res: Response) => {
-    const isUpdate = postsRepository.updatePostById(+req.params.id,req.body.title, req.body.shortDescription, req.body.content, req.body.blogId, req.body.blogName)
+    const isUpdate = postsRepository.updatePostById(req.params.id,req.body.title, req.body.shortDescription, req.body.content, req.body.blogId)
     if(isUpdate) {
         res.sendStatus(204)
     } else {

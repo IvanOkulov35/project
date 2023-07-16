@@ -31,14 +31,14 @@ export  const postsRepository = {
         posts.push(newPost)
         return newPost;
     },
-    updatePostById(id: number, title: string, shortDescription: string, content:string, blogId: string, blogName: string) {
+    updatePostById(id: string, title: string, shortDescription: string, content:string, blogId: string) {
         let post = posts.find(elem => elem.id === String(id))
         if(post) {
              post.title = title
              post.shortDescription = shortDescription
              post.content = content
              post.blogId = blogId
-             post.blogName = blogName
+
             return true;
         } else {
             return false;

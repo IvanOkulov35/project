@@ -20,7 +20,7 @@ exports.postsRouter.get('/:id', (req, res) => {
         res.sendStatus(404);
     }
 });
-exports.postsRouter.post('/', authorization_1.authorizationValidationMiddleware, (0, express_validator_1.body)('title').isString().trim().isLength({ max: 30 }).withMessage("post is too long"), (0, express_validator_1.body)("shortDescription").isString().trim().isLength({ max: 100 }).withMessage("shortDescription is too long"), (0, express_validator_1.body)("content").isString().trim().isLength({ max: 1000 }).withMessage("content is too long"), (0, express_validator_1.body)("blogId").isString().trim().notEmpty().withMessage("incorrect blogId").custom((id, req) => {
+exports.postsRouter.post('/', authorization_1.authorizationValidationMiddleware, (0, express_validator_1.body)('title').isString().trim().isLength({ min: 1, max: 30 }).withMessage("post is too long"), (0, express_validator_1.body)("shortDescription").isString().trim().isLength({ min: 1, max: 100 }).withMessage("shortDescription is too long"), (0, express_validator_1.body)("content").isString().trim().isLength({ min: 1, max: 1000 }).withMessage("content is too long"), (0, express_validator_1.body)("blogId").isString().trim().notEmpty().withMessage("incorrect blogId").custom((id, req) => {
     const postUpdate = blogs_repository_1.blogs.find(b => b.id === id);
     if (!postUpdate) {
         throw new Error("blog not found");
@@ -33,7 +33,7 @@ exports.postsRouter.post('/', authorization_1.authorizationValidationMiddleware,
     const post = posts_repository_1.postsRepository.createPost(req.body.title, req.body.shortDescription, req.body.content, req.body.blogId, req.body.blogName);
     res.status(201).send(post);
 });
-exports.postsRouter.put('/:id', authorization_1.authorizationValidationMiddleware, (0, express_validator_1.body)('title').isString().trim().isLength({ max: 30 }).withMessage("post is too long"), (0, express_validator_1.body)("shortDescription").isString().trim().isLength({ max: 100 }).withMessage("shortDescription is too long"), (0, express_validator_1.body)("content").isString().trim().isLength({ max: 1000 }).withMessage("content is too long"), (0, express_validator_1.body)("blogId").isString().trim().notEmpty().withMessage("incorrect blogId").custom((id, req) => {
+exports.postsRouter.put('/:id', authorization_1.authorizationValidationMiddleware, (0, express_validator_1.body)('title').isString().trim().isLength({ min: 1, max: 30 }).withMessage("post is too long"), (0, express_validator_1.body)("shortDescription").isString().trim().isLength({ min: 1, max: 100 }).withMessage("shortDescription is too long"), (0, express_validator_1.body)("content").isString().trim().isLength({ min: 1, max: 1000 }).withMessage("content is too long"), (0, express_validator_1.body)("blogId").isString().trim().notEmpty().withMessage("incorrect blogId").custom((id, req) => {
     const postUpdate = blogs_repository_1.blogs.find(b => b.id === id);
     if (!postUpdate) {
         throw new Error("blog not found");
@@ -43,7 +43,7 @@ exports.postsRouter.put('/:id', authorization_1.authorizationValidationMiddlewar
         return true;
     }
 }), (req, res) => {
-    const isUpdate = posts_repository_1.postsRepository.updatePostById(+req.params.id, req.body.title, req.body.shortDescription, req.body.content, req.body.blogId, req.body.blogName);
+    const isUpdate = posts_repository_1.postsRepository.updatePostById(req.params.id, req.body.title, req.body.shortDescription, req.body.content, req.body.blogId);
     if (isUpdate) {
         res.sendStatus(204);
     }
