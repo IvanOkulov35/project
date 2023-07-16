@@ -21,10 +21,10 @@ postsRouter.get('/:id', (req:Request, res: Response) => {
 
 postsRouter.post('/',
     authorizationValidationMiddleware,
-    body('title').isString().isLength({max: 30}).withMessage("post is too long"),
-    body("shortDescription").isString().isLength({max: 100}).withMessage("shortDescription is too long"),
-    body("content").isString().isLength({max: 1000}).withMessage("content is too long"),
-    body("blogId").isString().notEmpty().withMessage("incorrect blogId").custom((id, req) => {
+    body('title').isString().trim().isLength({max: 30}).withMessage("post is too long"),
+    body("shortDescription").isString().trim().isLength({max: 100}).withMessage("shortDescription is too long"),
+    body("content").isString().trim().isLength({max: 1000}).withMessage("content is too long"),
+    body("blogId").isString().trim().notEmpty().withMessage("incorrect blogId").custom((id, req) => {
         const postUpdate = blogs.find(b => b.id === id)
         if(!postUpdate) {
             throw  new Error("blog not found")
@@ -42,10 +42,10 @@ postsRouter.post('/',
 
 postsRouter.put('/:id',
     authorizationValidationMiddleware,
-    body('title').isString().isLength({max: 30}).withMessage("post is too long"),
-    body("shortDescription").isString().isLength({max: 100}).withMessage("shortDescription is too long"),
-    body("content").isString().isLength({max: 1000}).withMessage("content is too long"),
-    body("blogId").isString().notEmpty().withMessage("incorrect blogId").custom((id, req) => {
+    body('title').isString().trim().isLength({max: 30}).withMessage("post is too long"),
+    body("shortDescription").isString().trim().isLength({max: 100}).withMessage("shortDescription is too long"),
+    body("content").isString().trim().isLength({max: 1000}).withMessage("content is too long"),
+    body("blogId").isString().trim().notEmpty().withMessage("incorrect blogId").custom((id, req) => {
         const postUpdate = blogs.find(b => b.id === id)
         if(!postUpdate) {
             throw  new Error("blog not found")
