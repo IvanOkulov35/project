@@ -56,7 +56,7 @@ postsRouter.put('/:id',
     }),
     (req:Request, res: Response) => {
     const isUpdate = postsRepository.updatePostById(req.params.id,req.body.title, req.body.shortDescription, req.body.content, req.body.blogId)
-    if(isUpdate) {
+    if(!isUpdate) {
         res.sendStatus(204)
     } else {
         res.sendStatus(404)
@@ -69,7 +69,7 @@ postsRouter.delete('/:id',
     authorizationValidationMiddleware,
     (req:Request, res: Response) => {
   const isDeleted = postsRepository.deletePost(req.params.id)
-    if(!isDeleted) {
+    if(isDeleted) {
         res.sendStatus(204)
     } else {
         res.sendStatus(404)
