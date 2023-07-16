@@ -14,9 +14,9 @@ blogsRouter.get('/', (req:Request, res: Response) => {
 
 blogsRouter.post('/',
     authorizationValidationMiddleware,
-    body('name').isString().trim().isLength({ max: 15}).withMessage("name  is too long"),
-    body("description").isString().trim().isLength({max:500}).withMessage("description is too long"),
-    body("websiteUrl").isString().trim().isLength({max:100}).withMessage("websiteUrl is too long"),
+    body('name').isString().trim().isLength({min: 1,max: 15}).withMessage("name  is too long"),
+    body("description").isString().trim().isLength({min: 1,max:500}).withMessage("description is too long"),
+    body("websiteUrl").isString().trim().isLength({min: 1,max:100}).withMessage("websiteUrl is too long"),
     body("websiteUrl").isURL().withMessage("website url does not match the template"),
     inputValidationMiddleware,
     (req:Request, res: Response) => {
@@ -37,9 +37,9 @@ const blog = blogsRepository.getBlogsById(req.params.id)
 
 blogsRouter.put('/:id',
     authorizationValidationMiddleware,
-    body('name').isString().trim().isLength({ max: 15}).withMessage("name  is too long"),
-    body("description").isString().trim().isLength({max:500}).withMessage("description is too long"),
-    body("websiteUrl").isString().trim().isLength({max:100}).withMessage("websiteUrl is too long"),
+    body('name').isString().trim().isLength({min: 1, max: 15}).withMessage("name  is too long"),
+    body("description").isString().trim().isLength({min: 1,max:500}).withMessage("description is too long"),
+    body("websiteUrl").isString().trim().isLength({min: 1,max:100}).withMessage("websiteUrl is too long"),
     body("websiteUrl").isURL().withMessage("website url does not match the template"),
     inputValidationMiddleware,
     (req:Request, res: Response) => {
